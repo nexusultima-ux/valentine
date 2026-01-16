@@ -83,10 +83,12 @@ const ValentineExperience = () => {
     <div className="fixed inset-0 overflow-hidden">
       {/* Paper texture background */}
       <div 
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0"
         style={{ 
           backgroundImage: `url(/paper-texture.jpg)`,
-          opacity: 0.9,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '300px 300px',
+          opacity: 0.85,
         }}
       />
       <div className="absolute inset-0 bg-background/30" />
