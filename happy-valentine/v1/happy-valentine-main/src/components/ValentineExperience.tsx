@@ -4,87 +4,43 @@ import FloatingHearts from './FloatingHearts';
 import Sparkles from './Sparkles';
 import BackgroundMusic from './BackgroundMusic';
 import Typewriter from './Typewriter';
-import ScatteredText from './ScatteredText';
 import Doodles from './Doodles';
 import FoldedCorner from './FoldedCorner';
-import FluffyAnimal from './FluffyAnimal';
+import AnimatedImage from './AnimatedImage';
 import { useConfetti } from '@/hooks/useConfetti';
 import { RotateCcw } from 'lucide-react';
+import { valentineRevealConfig } from '@/config/valentineReveal.config';
 
 interface ValentineExperienceProps {
   onComplete?: () => void;
 }
 
-type Moment = 'curiosity' | 'context' | 'anticipation' | 'question' | 'yes' | 'thinking';
-type AnimalMood = 'curious' | 'watching' | 'excited' | 'hopeful' | 'joyful' | 'sad';
-
-const getMoodForMoment = (moment: Moment): AnimalMood => {
-  switch (moment) {
-    case 'curiosity': return 'curious';
-    case 'context': return 'watching';
-    case 'anticipation': return 'excited';
-    case 'question': return 'hopeful';
-    case 'yes': return 'joyful';
-    case 'thinking': return 'sad';
-    default: return 'curious';
-  }
-};
-
-// Customizable text content
-const content = {
-  curiosity: {
-    text: "Happy Valentine's Day 💌",
-    button: "Open",
-  },
-  context: {
-    line1: "I wanted to send you something special…",
-    line2: "Something just for you.",
-    button: "Continue",
-  },
-  anticipation: {
-    text: "You mean so much to me…",
-    button: "Tell me more",
-  },
-  question: {
-    text: "Happy Valentine's Day! 🎉",
-    yesButton: "I love this 💕",
-    thinkButton: "Thanks 😊",
-  },
-  yesResponse: {
-    line1: "You made my day even more special 💝",
-    line2: "Forever grateful for you.",
-  },
-  thinkingResponse: {
-    line1: "You're the best 💖",
-    line2: "Happy Valentine's Day, love.",
-  },
-};
+type Moment = 'greeting' | 'message' | 'closing';
 
 const ValentineExperience = ({ onComplete }: ValentineExperienceProps) => {
-  const [moment, setMoment] = useState<Moment>('curiosity');
+  const [moment, setMoment] = useState<Moment>('greeting');
   const [showButton, setShowButton] = useState(false);
-  const [showLine2, setShowLine2] = useState(false);
+  const [messageIndex, setMessageIndex] = useState(0);
   const { fireConfetti } = useConfetti();
 
   const goToNext = (next: Moment) => {
     setShowButton(false);
-    setShowLine2(false);
+    setMessageIndex(0);
     setMoment(next);
   };
 
-  const handleYesClick = useCallback(() => {
-    fireConfetti();
-    goToNext('yes');
-    setTimeout(() => {
-      if (onComplete) onComplete();
-    }, 1500);
-  }, [fireConfetti, onComplete]);
-
   const handleRestart = useCallback(() => {
     setShowButton(false);
-    setShowLine2(false);
-    setMoment('curiosity');
+    setMessageIndex(0);
+    setMoment('greeting');
   }, []);
+
+  const handleComplete = useCallback(() => {
+    fireConfetti();
+    setTimeout(() => {
+      if (onComplete) onComplete();
+    }, 2000);
+  }, [fireConfetti, onComplete]);
 
   return (
     <div className="fixed inset-0 overflow-hidden">
@@ -109,151 +65,30 @@ const ValentineExperience = ({ onComplete }: ValentineExperienceProps) => {
       
       <div className="relative z-10 w-full h-full flex items-center justify-center">
         <AnimatePresence mode="wait">
-          {moment === 'curiosity' && (
+          {moment === 'greeting' && (
             <motion.div
-              key="curiosity"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
-              className="flex flex-col items-center justify-center gap-8 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
-            >
-              <div className="md:absolute md:top-[20%] md:left-[15%] transform md:rotate-[-3deg]">
-                <p className="valentine-text text-2xl sm:text-3xl md:text-4xl lg:text-6xl text-foreground">
-                  <Typewriter 
-                    text={content.curiosity.text} 
-                    speed={60}
-                    onComplete={() => setShowButton(true)}
-                  />
-                </p>
-              </div>
-              
-              <AnimatePresence>
-                {showButton && (
-                  <motion.div
-                    initial={{ opacity: 0, rotate: -5, scale: 0.8 }}
-                    animate={{ opacity: 1, rotate: 3, scale: 1 }}
-                    transition={{ duration: 0.4, type: "spring", stiffness: 200 }}
-                    className="md:absolute md:bottom-[30%] md:right-[25%]"
-                  >
-                    <button
-                      onClick={() => goToNext('context')}
-                      className="childish-button min-h-[48px] min-w-[120px]"
-                    >
-                      {content.curiosity.button}
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          )}
-
-          {moment === 'context' && (
-            <motion.div
-              key="context"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
-              className="flex flex-col items-center justify-center gap-6 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
-            >
-              <div className="md:absolute md:top-[15%] md:right-[12%] md:max-w-[60%] md:text-right transform md:rotate-[2deg]">
-                <p className="valentine-text text-xl sm:text-2xl md:text-4xl lg:text-5xl text-foreground">
-                  <Typewriter 
-                    text={content.context.line1}
-                    delay={300}
-                    speed={45}
-                    onComplete={() => setShowLine2(true)}
-                  />
-                </p>
-              </div>
-              
-              {showLine2 && (
-                <div className="md:absolute md:top-[35%] md:left-[20%] transform md:rotate-[-4deg]">
-                  <p className="valentine-text text-xl sm:text-2xl md:text-3xl italic text-muted-foreground">
-                    <Typewriter 
-                      text={content.context.line2}
-                      speed={50}
-                      onComplete={() => setShowButton(true)}
-                    />
-                  </p>
-                </div>
-              )}
-              
-              <AnimatePresence>
-                {showButton && (
-                  <motion.div
-                    initial={{ opacity: 0, rotate: 5, scale: 0.8 }}
-                    animate={{ opacity: 1, rotate: -2, scale: 1 }}
-                    transition={{ duration: 0.4, type: "spring", stiffness: 200 }}
-                    className="md:absolute md:bottom-[25%] md:left-[35%]"
-                  >
-                    <button
-                      onClick={() => goToNext('anticipation')}
-                      className="childish-button-alt min-h-[48px] min-w-[100px]"
-                    >
-                      {content.context.button}
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          )}
-
-          {moment === 'anticipation' && (
-            <motion.div
-              key="anticipation"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
-              className="flex flex-col items-center justify-center gap-8 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
-            >
-              <div className="md:absolute md:top-[40%] md:left-[50%] md:-translate-x-1/2 transform md:rotate-[-2deg]">
-                <p className="valentine-text text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-foreground animate-wobble">
-                  <Typewriter 
-                    text={content.anticipation.text}
-                    speed={80}
-                    onComplete={() => setShowButton(true)}
-                  />
-                </p>
-              </div>
-              
-              <AnimatePresence>
-                {showButton && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20, rotate: -8 }}
-                    animate={{ opacity: 1, y: 0, rotate: 4 }}
-                    transition={{ duration: 0.5, type: "spring", stiffness: 150 }}
-                    className="md:absolute md:bottom-[30%] md:right-[30%]"
-                  >
-                    <button
-                      onClick={() => goToNext('question')}
-                      className="childish-button min-h-[48px] min-w-[120px]"
-                    >
-                      {content.anticipation.button}
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          )}
-
-          {moment === 'question' && (
-            <motion.div
-              key="question"
+              key="greeting"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
-              className="flex flex-col items-center justify-center gap-10 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
+              className="flex flex-col items-center justify-center gap-8 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
-              <div className="md:absolute md:top-[25%] md:left-[50%] md:-translate-x-1/2 transform md:rotate-[-1deg]">
-                <h1 className="valentine-text text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-bold text-foreground">
+              <div className="md:absolute md:top-[15%] md:left-[50%] md:-translate-x-1/2 transform md:rotate-[-2deg]">
+                <AnimatedImage
+                  src={valentineRevealConfig.greetingImage || ''}
+                  alt="Valentine greeting"
+                  className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 mx-auto mb-4"
+                  animationType="scale"
+                  delay={0.3}
+                />
+              </div>
+
+              <div className="md:absolute md:top-[35%] md:left-[50%] md:-translate-x-1/2 transform md:rotate-[-2deg]">
+                <h1 className="valentine-text text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-foreground">
                   <Typewriter 
-                    text={content.question.text}
-                    delay={500}
-                    speed={70}
+                    text={`Hi ${valentineRevealConfig.receiverName} 💌`}
+                    speed={60}
                     onComplete={() => setShowButton(true)}
                   />
                 </h1>
@@ -261,153 +96,205 @@ const ValentineExperience = ({ onComplete }: ValentineExperienceProps) => {
               
               <AnimatePresence>
                 {showButton && (
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 md:block">
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
-                      animate={{ opacity: 1, scale: 1, rotate: -3 }}
-                      transition={{ duration: 0.5, type: "spring", stiffness: 200, delay: 0.1 }}
-                      className="md:absolute md:bottom-[35%] md:left-[30%]"
+                  <motion.div
+                    initial={{ opacity: 0, rotate: -5, scale: 0.8 }}
+                    animate={{ opacity: 1, rotate: 3, scale: 1 }}
+                    transition={{ duration: 0.6, type: "spring", stiffness: 200 }}
+                    className="md:absolute md:bottom-[25%] md:left-[50%] md:-translate-x-1/2"
+                  >
+                    <button
+                      onClick={() => goToNext('message')}
+                      className="childish-button min-h-[48px] min-w-[140px] text-lg"
+                      style={{ 
+                        backgroundColor: valentineRevealConfig.themeColors.primary,
+                        borderColor: valentineRevealConfig.themeColors.secondary
+                      }}
                     >
-                      <button
-                        onClick={handleYesClick}
-                        className="childish-button text-xl sm:text-2xl md:text-3xl px-6 sm:px-8 py-3 sm:py-4 min-h-[56px] min-w-[140px]"
-                      >
-                        {content.question.yesButton}
-                      </button>
-                    </motion.div>
-                    
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.5, rotate: 10 }}
-                      animate={{ opacity: 1, scale: 1, rotate: 5 }}
-                      transition={{ duration: 0.5, type: "spring", stiffness: 200, delay: 0.3 }}
-                      className="md:absolute md:bottom-[22%] md:right-[28%]"
-                    >
-                      <button
-                        onClick={() => goToNext('thinking')}
-                        className="childish-button-alt text-base sm:text-lg md:text-xl min-h-[48px] min-w-[160px]"
-                      >
-                        {content.question.thinkButton}
-                      </button>
-                    </motion.div>
-                  </div>
+                      Open My Heart
+                    </button>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </motion.div>
           )}
 
-          {moment === 'yes' && (
+          {moment === 'message' && (
             <motion.div
-              key="yes"
+              key="message"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
               className="flex flex-col items-center justify-center gap-6 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
-              <div className="md:absolute md:top-[20%] md:left-[20%] transform md:rotate-[3deg]">
-                <p className="valentine-text text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-primary">
-                  <Typewriter 
-                    text={content.yesResponse.line1}
-                    speed={50}
-                    onComplete={() => setShowLine2(true)}
-                  />
-                </p>
+              <div className="md:absolute md:top-[10%] md:left-[50%] md:-translate-x-1/2 transform md:rotate-[1deg] md:max-w-[80%]">
+                <h2 className="valentine-text text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-semibold mb-4" 
+                    style={{ color: valentineRevealConfig.themeColors.primary }}>
+                  {valentineRevealConfig.headline}
+                </h2>
               </div>
-              
-              {showLine2 && (
-                <div className="md:absolute md:top-[40%] md:right-[15%] transform md:rotate-[-2deg]">
-                  <p className="valentine-text text-xl sm:text-2xl md:text-3xl italic text-muted-foreground">
-                    <Typewriter 
-                      text={content.yesResponse.line2}
-                      speed={45}
-                      onComplete={() => setShowButton(true)}
-                    />
+
+              <div className="md:absolute md:top-[20%] md:right-[15%] transform md:rotate-[-3deg]">
+                <AnimatedImage
+                  src={valentineRevealConfig.messageImage || ''}
+                  alt="Valentine message"
+                  className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40"
+                  animationType="glow"
+                  delay={0.5}
+                />
+              </div>
+
+              {valentineRevealConfig.mainMessage.slice(0, messageIndex + 1).map((line, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.3 }}
+                  className={`md:absolute md:left-[50%] md:-translate-x-1/2 transform ${
+                    index === 0 ? 'md:top-[30%] md:rotate-[-2deg]' :
+                    index === 1 ? 'md:top-[38%] md:rotate-[1deg]' :
+                    index === 2 ? 'md:top-[46%] md:rotate-[-1deg]' :
+                    index === 3 ? 'md:top-[54%] md:rotate-[2deg]' :
+                    index === 4 ? 'md:top-[62%] md:rotate-[-2deg]' :
+                    'md:top-[70%] md:rotate-[1deg]'
+                  }`}
+                >
+                  <p className="valentine-text text-lg sm:text-xl md:text-3xl lg:text-4xl text-foreground italic">
+                    {index === messageIndex ? (
+                      <Typewriter 
+                        text={line}
+                        speed={50}
+                        onComplete={() => {
+                          if (messageIndex < valentineRevealConfig.mainMessage.length - 1) {
+                            setTimeout(() => setMessageIndex(prev => prev + 1), 800);
+                          } else {
+                            setShowButton(true);
+                          }
+                        }}
+                      />
+                    ) : (
+                      line
+                    )}
                   </p>
-                </div>
-              )}
+                </motion.div>
+              ))}
               
               <AnimatePresence>
                 {showButton && (
-                  <div className="flex flex-col items-center gap-6 md:block">
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1, rotate: [0, 10, -10, 5, 0] }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                      className="text-6xl sm:text-7xl md:text-8xl md:absolute md:bottom-[30%] md:left-[50%] md:-translate-x-1/2"
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 4 }}
+                    transition={{ duration: 0.6, type: "spring", stiffness: 200 }}
+                    className="md:absolute md:bottom-[15%] md:left-[50%] md:-translate-x-1/2"
+                  >
+                    <button
+                      onClick={() => goToNext('closing')}
+                      className="childish-button-alt min-h-[48px] min-w-[120px] text-lg"
+                      style={{ 
+                        backgroundColor: valentineRevealConfig.themeColors.accent,
+                        borderColor: valentineRevealConfig.themeColors.secondary
+                      }}
                     >
-                      💕
-                    </motion.div>
-                    <motion.button
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5, duration: 0.4 }}
-                      onClick={handleRestart}
-                      className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors min-h-[44px] md:absolute md:bottom-[12%] md:left-[50%] md:-translate-x-1/2"
-                      style={{ fontFamily: 'var(--font-handwritten)' }}
-                    >
-                      <RotateCcw size={18} />
-                      <span className="text-lg">Start over?</span>
-                    </motion.button>
-                  </div>
+                      Forever Yours
+                    </button>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </motion.div>
           )}
 
-          {moment === 'thinking' && (
+          {moment === 'closing' && (
             <motion.div
-              key="thinking"
+              key="closing"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.8 }}
-              className="flex flex-col items-center justify-center gap-6 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
+              transition={{ duration: 1.0 }}
+              className="flex flex-col items-center justify-center gap-8 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
-              <div className="md:absolute md:top-[30%] md:left-[25%] transform md:rotate-[-3deg]">
-                <p className="valentine-text text-xl sm:text-2xl md:text-4xl lg:text-5xl text-foreground">
+              <div className="md:absolute md:top-[15%] md:left-[50%] md:-translate-x-1/2 transform md:rotate-[2deg]">
+                <AnimatedImage
+                  src={valentineRevealConfig.celebrationImage || ''}
+                  alt="Valentine celebration"
+                  className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 mx-auto mb-4"
+                  animationType="scale"
+                  delay={0.2}
+                />
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: [0, 1.2, 1] }}
+                  transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl mb-4"
+                >
+                  💕
+                </motion.div>
+                <h2 className="valentine-text text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold" 
+                    style={{ color: valentineRevealConfig.themeColors.primary }}>
                   <Typewriter 
-                    text={content.thinkingResponse.line1}
-                    speed={60}
-                    onComplete={() => setShowLine2(true)}
+                    text={valentineRevealConfig.closingLine}
+                    speed={70}
+                    onComplete={handleComplete}
                   />
-                </p>
+                </h2>
               </div>
-              
-              {showLine2 && (
-                <div className="md:absolute md:top-[45%] md:right-[20%] transform md:rotate-[2deg]">
-                  <p className="valentine-text text-lg sm:text-xl md:text-3xl italic text-muted-foreground">
-                    <Typewriter 
-                      text={content.thinkingResponse.line2}
-                      speed={50}
-                      onComplete={() => setShowButton(true)}
-                    />
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1.5, duration: 0.8 }}
+                className="md:absolute md:top-[50%] md:left-[50%] md:-translate-x-1/2 transform md:rotate-[-1deg]"
+              >
+                <motion.div
+                  animate={{ 
+                    scale: [1, 1.05, 1],
+                    rotate: [0, 1, -1, 0]
+                  }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border-2"
+                  style={{ borderColor: valentineRevealConfig.themeColors.accent }}
+                >
+                  <p className="valentine-text text-xl sm:text-2xl md:text-4xl lg:text-5xl text-foreground">
+                    With all my love,<br/>
+                    <motion.span 
+                      className="font-semibold inline-block"
+                      style={{ color: valentineRevealConfig.themeColors.primary }}
+                      animate={{ 
+                        scale: [1, 1.1, 1],
+                      }}
+                      transition={{ 
+                        duration: 1.5, 
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      {valentineRevealConfig.senderName}
+                    </motion.span>
                   </p>
-                </div>
-              )}
+                </motion.div>
+              </motion.div>
               
               <AnimatePresence>
                 {showButton && (
-                  <div className="flex flex-col items-center gap-6 md:block">
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 0.8, y: [0, -10, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                      className="text-5xl md:text-6xl md:absolute md:bottom-[35%] md:left-[50%] md:-translate-x-1/2"
-                    >
-                      🥺
-                    </motion.div>
-                    <motion.button
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5, duration: 0.4 }}
-                      onClick={handleRestart}
-                      className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors min-h-[44px] md:absolute md:bottom-[15%] md:left-[50%] md:-translate-x-1/2"
-                      style={{ fontFamily: 'var(--font-handwritten)' }}
-                    >
-                      <RotateCcw size={18} />
-                      <span className="text-lg">Try again?</span>
-                    </motion.button>
-                  </div>
+                  <motion.button
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 2, duration: 0.4 }}
+                    onClick={handleRestart}
+                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors min-h-[44px] md:absolute md:bottom-[12%] md:left-[50%] md:-translate-x-1/2 px-4 py-2 rounded-full border-2"
+                    style={{ 
+                      borderColor: valentineRevealConfig.themeColors.secondary,
+                      color: valentineRevealConfig.themeColors.primary
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <RotateCcw size={18} />
+                    <span className="text-lg font-handwritten">Watch Again</span>
+                  </motion.button>
                 )}
               </AnimatePresence>
             </motion.div>
