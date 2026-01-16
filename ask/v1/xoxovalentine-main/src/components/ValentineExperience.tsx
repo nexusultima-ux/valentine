@@ -108,11 +108,11 @@ const ValentineExperience = () => {
         style={{ 
           backgroundImage: `url(/paper-texture.jpg)`,
           backgroundRepeat: 'repeat',
-          backgroundSize: '300px 300px',
-          opacity: 0.85,
+          backgroundSize: '400px 400px',
+          opacity: 0.95,
         }}
       />
-      <div className="absolute inset-0 bg-background/30" />
+      <div className="absolute inset-0 bg-background/20" />
       
       <DramaticLighting moment={moment} />
       <FoldedCorner />
@@ -135,7 +135,7 @@ const ValentineExperience = () => {
               className="flex flex-col items-center justify-center gap-8 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
               <div className="flex flex-col items-center justify-center gap-4 md:absolute md:top-[20%] md:left-[50%] md:-translate-x-1/2 transform md:rotate-[-2deg] text-center">
-                <p className="valentine-text text-2xl sm:text-3xl md:text-5xl lg:text-7xl text-foreground">
+                <p className="valentine-text text-3xl sm:text-4xl md:text-6xl lg:text-8xl text-foreground">
                   <Typewriter 
                     text={content.mystery.text} 
                     speed={50}
@@ -144,7 +144,7 @@ const ValentineExperience = () => {
                 </p>
               
               {showSubtext && (
-                  <p className="valentine-text text-lg sm:text-xl md:text-2xl italic text-muted-foreground md:rotate-[3deg]">
+                  <p className="valentine-text text-xl sm:text-2xl md:text-3xl lg:text-4xl italic text-muted-foreground md:rotate-[3deg]">
                     <Typewriter 
                       text={content.mystery.subtext}
                       speed={40}
@@ -184,7 +184,7 @@ const ValentineExperience = () => {
               className="flex flex-col items-center justify-center gap-6 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
               <div className="md:absolute md:top-[12%] md:left-[50%] md:-translate-x-1/2 md:max-w-[70%] transform md:rotate-[1deg]">
-                <p className="valentine-text text-xl sm:text-2xl md:text-4xl lg:text-5xl text-foreground">
+                <p className="valentine-text text-2xl sm:text-3xl md:text-5xl lg:text-7xl text-foreground">
                   <Typewriter 
                     text={content.memory.text}
                     delay={500}
@@ -196,7 +196,7 @@ const ValentineExperience = () => {
               
               {showSubtext && (
                 <div className="md:absolute md:top-[28%] md:right-[15%] transform md:rotate-[-2deg]">
-                  <p className="valentine-text text-lg sm:text-xl md:text-2xl italic text-muted-foreground">
+                  <p className="valentine-text text-xl sm:text-2xl md:text-3xl lg:text-4xl italic text-muted-foreground">
                     <Typewriter 
                       text={content.memory.subtext}
                       speed={40}
