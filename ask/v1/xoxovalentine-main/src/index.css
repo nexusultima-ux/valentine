@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 350 50% 97%;
+    --foreground: 350 40% 20%;
+
+    --card: 350 45% 95%;
+    --card-foreground: 350 40% 20%;
+
+    --popover: 350 45% 95%;
+    --popover-foreground: 350 40% 20%;
+
+    --primary: 350 75% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 350 30% 90%;
+    --secondary-foreground: 350 40% 25%;
+
+    --muted: 350 25% 92%;
+    --muted-foreground: 350 20% 50%;
+
+    --accent: 15 65% 75%;
+    --accent-foreground: 350 40% 20%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 350 30% 88%;
+    --input: 350 30% 88%;
+    --ring: 350 75% 60%;
+
+    --radius: 0.75rem;
+
+    /* Valentine specific tokens */
+    --valentine-blush: 350 60% 94%;
+    --valentine-rose: 350 75% 65%;
+    --valentine-deep: 350 50% 40%;
+    --valentine-cream: 30 50% 96%;
+    --valentine-sparkle: 45 100% 85%;
+
+    --font-handwritten: 'Patrick Hand', cursive;
+    --font-scribble: 'Caveat', cursive;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 350 30% 8%;
+    --foreground: 350 20% 90%;
+
+    --card: 350 25% 12%;
+    --card-foreground: 350 20% 90%;
+
+    --popover: 350 25% 12%;
+    --popover-foreground: 350 20% 90%;
+
+    --primary: 350 70% 65%;
+    --primary-foreground: 350 30% 10%;
+
+    --secondary: 350 20% 18%;
+    --secondary-foreground: 350 20% 90%;
+
+    --muted: 350 15% 20%;
+    --muted-foreground: 350 15% 60%;
+
+    --accent: 15 50% 50%;
+    --accent-foreground: 350 20% 90%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 350 20% 20%;
+    --input: 350 20% 20%;
+    --ring: 350 70% 65%;
+
+    --valentine-blush: 350 30% 15%;
+    --valentine-rose: 350 65% 55%;
+    --valentine-deep: 350 40% 70%;
+    --valentine-cream: 30 20% 15%;
+    --valentine-sparkle: 45 80% 60%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-handwritten);
+  }
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-2deg); }
+  75% { transform: rotate(2deg); }
+}
+
+.animate-wobble {
+  animation: wobble 3s ease-in-out infinite;
+}
+
+@layer components {
+  .valentine-text {
+    @apply text-foreground;
+    font-family: var(--font-scribble);
+    letter-spacing: 0.01em;
+    /* Crayon/marker effect */
+    text-shadow: 
+      1px 1px 0 hsl(var(--foreground) / 0.1),
+      -0.5px -0.5px 0 hsl(var(--foreground) / 0.05),
+      2px 0 2px hsl(var(--foreground) / 0.03);
+    filter: url(#crayon-texture);
+  }
+
+  .crayon-text {
+    position: relative;
+    display: inline-block;
+  }
+
+  .crayon-text::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0.03;
+    transform: translate(2px, 1px) skewX(-1deg);
+  }
+
+  .childish-button {
+    @apply px-6 py-3 text-xl transition-all duration-300;
+    font-family: var(--font-handwritten);
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border: 3px dashed hsl(var(--primary-foreground) / 0.5);
+    border-radius: 12px 24px 16px 28px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 hsl(var(--foreground) / 0.2);
+    transform: rotate(-1deg);
+  }
+
+  .childish-button:hover {
+    transform: rotate(1deg) scale(1.05);
+    box-shadow: 6px 6px 0 hsl(var(--foreground) / 0.25);
+  }
+
+  .childish-button:active {
+    transform: rotate(0deg) scale(0.98);
+    box-shadow: 2px 2px 0 hsl(var(--foreground) / 0.2);
+  }
+
+  .childish-button-alt {
+    @apply px-5 py-2 text-lg transition-all duration-300;
+    font-family: var(--font-handwritten);
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    border: 2px dashed hsl(var(--border));
+    border-radius: 20px 8px 24px 12px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 hsl(var(--foreground) / 0.15);
+    transform: rotate(2deg);
+  }
+
+  .childish-button-alt:hover {
+    transform: rotate(-1deg) scale(1.03);
+    background: hsl(var(--muted));
+  }
+}
+
+@layer utilities {
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .animate-float {
+    animation: float linear infinite;
+  }
+
+  .animate-sparkle {
+    animation: sparkle 2s ease-in-out infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 3s ease-in-out infinite;
+  }
+}
