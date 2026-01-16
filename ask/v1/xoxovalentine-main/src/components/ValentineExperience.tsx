@@ -10,7 +10,6 @@ import FoldedCorner from './FoldedCorner';
 import FluffyAnimal from './FluffyAnimal';
 import { useConfetti } from '@/hooks/useConfetti';
 import { RotateCcw } from 'lucide-react';
-import paperTexture from '@/assets/paper-texture.jpg';
 
 type Moment = 'curiosity' | 'context' | 'anticipation' | 'question' | 'yes' | 'thinking';
 type AnimalMood = 'curious' | 'watching' | 'excited' | 'hopeful' | 'joyful' | 'sad';
@@ -86,7 +85,7 @@ const ValentineExperience = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{ 
-          backgroundImage: `url(${paperTexture})`,
+          backgroundImage: `url(/paper-texture.jpg)`,
           opacity: 0.9,
         }}
       />
