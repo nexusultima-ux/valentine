@@ -135,7 +135,7 @@ const ValentineExperience = () => {
               className="flex flex-col items-center justify-center gap-8 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
               <div className="flex flex-col items-center justify-center gap-4 md:absolute md:top-[20%] md:left-[50%] md:-translate-x-1/2 transform md:rotate-[-2deg] text-center">
-                <p className="valentine-text text-3xl sm:text-4xl md:text-6xl lg:text-8xl text-foreground">
+                <p className="valentine-text text-3xl sm:text-4xl md:text-6xl lg:text-8xl text-valentine-rose drop-shadow-lg animate-pulse">
                   <Typewriter 
                     text={content.mystery.text} 
                     speed={50}
@@ -144,7 +144,7 @@ const ValentineExperience = () => {
                 </p>
               
               {showSubtext && (
-                  <p className="valentine-text text-xl sm:text-2xl md:text-3xl lg:text-4xl italic text-muted-foreground md:rotate-[3deg]">
+                  <p className="valentine-text text-xl sm:text-2xl md:text-3xl lg:text-4xl italic text-valentine-deep md:rotate-[5deg] drop-shadow-md">
                     <Typewriter 
                       text={content.mystery.subtext}
                       speed={40}
@@ -164,7 +164,7 @@ const ValentineExperience = () => {
                   >
                     <button
                       onClick={() => goToNext('memory')}
-                      className="childish-button min-h-[48px] min-w-[140px]"
+                      className="childish-button min-h-[48px] min-w-[140px] bg-valentine-rose hover:bg-valentine-deep border-2 border-valentine-deep text-white animate-bounce"
                     >
                       {content.mystery.button}
                     </button>
