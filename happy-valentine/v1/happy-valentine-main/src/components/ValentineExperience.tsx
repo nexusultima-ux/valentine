@@ -11,6 +11,10 @@ import FluffyAnimal from './FluffyAnimal';
 import { useConfetti } from '@/hooks/useConfetti';
 import { RotateCcw } from 'lucide-react';
 
+interface ValentineExperienceProps {
+  onComplete?: () => void;
+}
+
 type Moment = 'curiosity' | 'context' | 'anticipation' | 'question' | 'yes' | 'thinking';
 type AnimalMood = 'curious' | 'watching' | 'excited' | 'hopeful' | 'joyful' | 'sad';
 
@@ -56,7 +60,7 @@ const content = {
   },
 };
 
-const ValentineExperience = () => {
+const ValentineExperience = ({ onComplete }: ValentineExperienceProps) => {
   const [moment, setMoment] = useState<Moment>('curiosity');
   const [showButton, setShowButton] = useState(false);
   const [showLine2, setShowLine2] = useState(false);
@@ -71,7 +75,10 @@ const ValentineExperience = () => {
   const handleYesClick = useCallback(() => {
     fireConfetti();
     goToNext('yes');
-  }, [fireConfetti]);
+    setTimeout(() => {
+      if (onComplete) onComplete();
+    }, 1500);
+  }, [fireConfetti, onComplete]);
 
   const handleRestart = useCallback(() => {
     setShowButton(false);
