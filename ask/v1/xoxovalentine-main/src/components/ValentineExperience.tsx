@@ -112,7 +112,7 @@ const ValentineExperience = () => {
               className="flex flex-col items-center justify-center gap-8 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
               <div className="md:absolute md:top-[20%] md:left-[15%] transform md:rotate-[-3deg]">
-                <p className="valentine-text text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-foreground">
+                <p className="valentine-text text-2xl sm:text-3xl md:text-4xl lg:text-6xl text-foreground">
                   <Typewriter 
                     text={content.curiosity.text} 
                     speed={60}
@@ -151,7 +151,7 @@ const ValentineExperience = () => {
               className="flex flex-col items-center justify-center gap-6 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
               <div className="md:absolute md:top-[15%] md:right-[12%] md:max-w-[60%] md:text-right transform md:rotate-[2deg]">
-                <p className="valentine-text text-xl sm:text-2xl md:text-3xl text-foreground">
+                <p className="valentine-text text-xl sm:text-2xl md:text-4xl lg:text-5xl text-foreground">
                   <Typewriter 
                     text={content.context.line1}
                     delay={300}
@@ -203,7 +203,7 @@ const ValentineExperience = () => {
               className="flex flex-col items-center justify-center gap-8 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
               <div className="md:absolute md:top-[40%] md:left-[50%] md:-translate-x-1/2 transform md:rotate-[-2deg]">
-                <p className="valentine-text text-2xl sm:text-3xl md:text-4xl text-foreground animate-wobble">
+                <p className="valentine-text text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-foreground animate-wobble">
                   <Typewriter 
                     text={content.anticipation.text}
                     speed={80}
@@ -242,7 +242,7 @@ const ValentineExperience = () => {
               className="flex flex-col items-center justify-center gap-10 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
               <div className="md:absolute md:top-[25%] md:left-[50%] md:-translate-x-1/2 transform md:rotate-[-1deg]">
-                <h1 className="valentine-text text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-foreground">
+                <h1 className="valentine-text text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-bold text-foreground">
                   <Typewriter 
                     text={content.question.text}
                     delay={500}
@@ -298,7 +298,7 @@ const ValentineExperience = () => {
               className="flex flex-col items-center justify-center gap-6 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
               <div className="md:absolute md:top-[20%] md:left-[20%] transform md:rotate-[3deg]">
-                <p className="valentine-text text-2xl sm:text-3xl md:text-5xl font-bold text-primary">
+                <p className="valentine-text text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-primary">
                   <Typewriter 
                     text={content.yesResponse.line1}
                     speed={50}
@@ -357,7 +357,7 @@ const ValentineExperience = () => {
               className="flex flex-col items-center justify-center gap-6 px-6 text-center w-full max-w-2xl md:block md:absolute md:inset-0 md:px-0"
             >
               <div className="md:absolute md:top-[30%] md:left-[25%] transform md:rotate-[-3deg]">
-                <p className="valentine-text text-xl sm:text-2xl md:text-4xl text-foreground">
+                <p className="valentine-text text-xl sm:text-2xl md:text-4xl lg:text-5xl text-foreground">
                   <Typewriter 
                     text={content.thinkingResponse.line1}
                     speed={60}
